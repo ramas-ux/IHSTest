@@ -1,0 +1,10 @@
+ Volume in drive C is Windows
+ Volume Serial Number is C225-FA0A
+
+ Directory of C:\Users\ramad\OneDrive\Desktop\MyProject
+
+03/11/2020  18:51    <DIR>          .
+03/11/2020  18:51    <DIR>          ..
+03/11/2020  18:51                 0 test1.txt
+               1 File(s)              0 bytes
+               2 Dir(s)  86,976,487,424 bytes free
