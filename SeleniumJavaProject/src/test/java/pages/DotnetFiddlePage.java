@@ -1,17 +1,18 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
-public class dotnetFiddlePageObjects {
+public class DotnetFiddlePage {
+	WebDriver driver;
 
-	public dotnetFiddlePageObjects(WebDriver driver) {
-		PageFactory.initElements(driver, this);
+	public DotnetFiddlePage(WebDriver driver) {
+		this.driver = driver;
 	}
- 
+
 	@FindBy(css = "#run-button")
 	public WebElement run;
 
@@ -26,45 +27,58 @@ public class dotnetFiddlePageObjects {
 
 	@FindBy(css = "input#ShareLink")
 	public WebElement shareLink;
-	
+
 	@FindBy(css = "span.glyphicon.glyphicon-chevron-left:last-of-type")
 	public WebElement optionsHideBtn;
-	
+
 	@FindBy(css = "span.glyphicon.glyphicon-chevron-right")
 	public WebElement optionsShowBtn;
-	
+
 	@FindBy(css = "button#save-button")
 	public WebElement saveBtn;
-	
+
 	@FindBy(css = "h4#login-modal-label")
 	public WebElement logInModal;
-	
+
 	@FindBy(linkText = "GettingStarted")
 	public WebElement gettingStartedBtn;
-	// a#ui-id-161
+	
 
-	public void checksBasedOnFirstName(String firstName) {
+	public void checksBasedOnFirstName(String firstName, GettingStartedPage gettingStartedPage) {
 		char ch = (firstName.toUpperCase()).charAt(0);
+		
+		if( ch == 'A' || ch == 'B' || ch == 'C' || ch == 'D' || ch == 'E') {
+			nuGetPackages.sendKeys("nUnit");
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			driver.findElement(By.cssSelector("a#ui-id-1")).click();
+			driver.findElement(By.cssSelector("a[package-id=NUnit][version-name = 3.12.0.0]")).click();
+			Assert.assertTrue(driver.findElement(By.cssSelector("div[package-id=NUnit]")).isDisplayed());
+			Assert.assertTrue(driver.findElement(By.cssSelector("a.delete-package")).isDisplayed());
+		}
 
-		if (ch == 'F' || ch == 'G' || ch == 'H' || ch == 'I' || ch == 'J' || ch == 'K') {
+		else if (ch == 'F' || ch == 'G' || ch == 'H' || ch == 'I' || ch == 'J' || ch == 'K') {
 			shareBtn.click();
 			String shareLinkText = shareLink.getText();
 			Assert.assertTrue(shareLinkText.startsWith("https://dotnetfiddle.net/"));
 		}
 		
-		if( ch == 'L' || ch == 'M' || ch == 'N' || ch == 'O' || ch == 'P') {
+		else if(ch == 'L' || ch == 'M' || ch == 'N' || ch == 'O' || ch == 'P') {
 			optionsHideBtn.click();
 			Assert.assertTrue(optionsShowBtn.isDisplayed());
 		}
 		
-		if( ch == 'Q' || ch == 'R' || ch == 'S' || ch == 'T' || ch == 'U') {
+		else if(ch == 'Q' || ch == 'R' || ch == 'S' || ch == 'T' || ch == 'U') {
 			saveBtn.click();
 			Assert.assertTrue(logInModal.isDisplayed());
 		}
 		
-		if( ch == 'V' || ch == 'W' || ch == 'X' || ch == 'Y' || ch == 'Z') {
+		else if(ch == 'V' || ch == 'W' || ch == 'X' || ch == 'Y' || ch == 'Z') {
 			gettingStartedBtn.click();
-			//Assert.assertTrue(logInModal.isDisplayed());
+			Assert.assertTrue(gettingStartedPage.backToEditorBtn.isDisplayed());
 		}
 
 	}

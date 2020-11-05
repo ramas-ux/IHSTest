@@ -7,12 +7,14 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import pages.dotnetFiddlePageObjects;
+import pages.DotnetFiddlePage;
+import pages.GettingStartedPage;
 
-public class dotnetFiddleTest {
+public class DotnetFiddleTest {
 
 	WebDriver driver = null;
-	dotnetFiddlePageObjects dotnetFiddlePage;
+	DotnetFiddlePage dotnetFiddlePage;
+	GettingStartedPage gettingStartedPage;
 
 	@BeforeTest
 	public void setUpTest() {
@@ -25,20 +27,20 @@ public class dotnetFiddleTest {
 
 	@Test
 	public void testHelloWorldText() {
-		dotnetFiddlePage = new dotnetFiddlePageObjects(driver);
+		dotnetFiddlePage = new DotnetFiddlePage(driver);
 		dotnetFiddlePage.run.click();
 		Assert.assertEquals(dotnetFiddlePage.hwOutputText.getText(), "Hello World");
 	}
 	
 	@Test
 	public void testDiffButtonsBasedOnFirstName() {
-		dotnetFiddlePage = new dotnetFiddlePageObjects(driver);
-		dotnetFiddlePage.checksBasedOnFirstName("Fiddle");
+		gettingStartedPage = new GettingStartedPage(driver);
+		dotnetFiddlePage.checksBasedOnFirstName("Fiddle", gettingStartedPage);
 	}
 	
 	@AfterTest
 	public void tearDown() {
-		driver.close();
+		driver.quit();
 	}
 
 }
