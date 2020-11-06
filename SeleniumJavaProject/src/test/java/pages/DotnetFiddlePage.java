@@ -4,13 +4,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 public class DotnetFiddlePage {
 	WebDriver driver;
 
 	public DotnetFiddlePage(WebDriver driver) {
-		this.driver = driver;
+      PageFactory.initElements(driver, this);
 	}
 
 	@FindBy(css = "#run-button")
@@ -43,17 +44,19 @@ public class DotnetFiddlePage {
 	@FindBy(linkText = "GettingStarted")
 	public WebElement gettingStartedBtn;
 	
+	
+	public void checkOutput(String text) throws Exception {
+		Thread.sleep(1000);
+		run.click();
+		Assert.assertEquals(hwOutputText.getText(), "Hello World");
+	}
 
-	public void checksBasedOnFirstName(String firstName, GettingStartedPage gettingStartedPage) {
+	public void checksBasedOnFirstName(String firstName, GettingStartedPage gettingStartedPage) throws Exception {
 		char ch = (firstName.toUpperCase()).charAt(0);
 		
 		if( ch == 'A' || ch == 'B' || ch == 'C' || ch == 'D' || ch == 'E') {
 			nuGetPackages.sendKeys("nUnit");
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Thread.sleep(1000);
 			driver.findElement(By.cssSelector("a#ui-id-1")).click();
 			driver.findElement(By.cssSelector("a[package-id=NUnit][version-name = 3.12.0.0]")).click();
 			Assert.assertTrue(driver.findElement(By.cssSelector("div[package-id=NUnit]")).isDisplayed());
