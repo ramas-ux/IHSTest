@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 public class DotnetFiddlePage {
@@ -17,7 +19,7 @@ public class DotnetFiddlePage {
 	}
 
 	@FindBy(css = "#run-button")
-	public WebElement run;
+	public WebElement runBtn;
 
 	@FindBy(css = "#output")
 	public WebElement hwOutputText;
@@ -46,17 +48,17 @@ public class DotnetFiddlePage {
 	@FindBy(linkText = "GettingStarted")
 	public WebElement gettingStartedBtn;
 
-	public void checkOutput(String text) throws Exception {
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		run.click();
+	public void clickOnRunBtn() {
+		waitForElement(runBtn, 5);
+		runBtn.click();
 	}
 
 	public void checksBasedOnFirstName(String firstName, GettingStartedPage gettingStartedPage) throws Exception {
 		char ch = (firstName.toUpperCase()).charAt(0);
-
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		if (ch == 'A' || ch == 'B' || ch == 'C' || ch == 'D' || ch == 'E') {
+			waitForElement(nuGetPackages, 15);
 			nuGetPackages.sendKeys("nUnit");
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			driver.findElement(By.cssSelector("a#ui-id-1")).click();
 			driver.findElement(By.cssSelector("a[package-id=NUnit][version-name = 3.12.0.0]")).click();
 			Assert.assertTrue(driver.findElement(By.cssSelector("div[package-id=NUnit]")).isDisplayed());
@@ -64,29 +66,33 @@ public class DotnetFiddlePage {
 		}
 
 		else if (ch == 'F' || ch == 'G' || ch == 'H' || ch == 'I' || ch == 'J' || ch == 'K') {
+			waitForElement(shareBtn, 15);
 			shareBtn.click();
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			String shareLinkText = shareLink.getText();
 			Assert.assertTrue(shareLinkText.startsWith("https://dotnetfiddle.net/"));
 		}
 
 		else if (ch == 'L' || ch == 'M' || ch == 'N' || ch == 'O' || ch == 'P') {
+			waitForElement(optionsHideBtn, 15);
 			optionsHideBtn.click();
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			Assert.assertTrue(optionsShowBtn.isDisplayed());
 		}
 
 		else if (ch == 'Q' || ch == 'R' || ch == 'S' || ch == 'T' || ch == 'U') {
+			waitForElement(saveBtn, 15);
 			saveBtn.click();
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			Assert.assertTrue(logInModal.isDisplayed());
 		}
 
 		else if (ch == 'V' || ch == 'W' || ch == 'X' || ch == 'Y' || ch == 'Z') {
+			waitForElement(gettingStartedBtn, 15);
 			gettingStartedBtn.click();
-			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 			Assert.assertTrue(gettingStartedPage.backToEditorBtn.isDisplayed());
 		}
 
+	}
+
+	public void waitForElement(WebElement element, int timeout) {
+		new WebDriverWait(driver, timeout).until(ExpectedConditions.elementToBeClickable(element));
 	}
 }

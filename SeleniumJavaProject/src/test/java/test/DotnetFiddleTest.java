@@ -11,9 +11,9 @@ public class DotnetFiddleTest extends BaseTest {
 	GettingStartedPage gettingStartedPage;
 
 	@Test(priority = 0)
-	public void testHelloWorldText() throws Exception {
+	public void testHelloWorldText() {
 		dotnetFiddlePage = new DotnetFiddlePage(driver);
-		dotnetFiddlePage.checkOutput("Hello World");
+		dotnetFiddlePage.clickOnRunBtn();
 		Assert.assertEquals(dotnetFiddlePage.hwOutputText.getText(), "Hello World");
 	}
 
